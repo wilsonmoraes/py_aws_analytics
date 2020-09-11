@@ -1,4 +1,3 @@
-# serverless config credentials --provider aws --key AKIAIDFYUY4TGYFDXIVA --secret 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
 # sls plugin install -n serverless-wsgi
 # sls plugin install -n serverless-python-requirements
 # sls deploy -v
