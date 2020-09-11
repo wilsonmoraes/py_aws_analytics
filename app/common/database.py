@@ -42,11 +42,11 @@ class AthenaService(abc.ABC):
                    '{schema_name}?s3_staging_dir={s3_staging_dir}'
 
         self.engine = create_engine(conn_str.format(
-            aws_access_key_id=quote_plus('AKIAIBTZL2HUG4PRHLRA'),
-            aws_secret_access_key=quote_plus('snfXZMO8rlocIGVErYU8FhrB0tripNcCd63IBkGn'),
+            aws_access_key_id=quote_plus('YOUR_SECRET_KEY'),
+            aws_secret_access_key=quote_plus('YOUR_SECRET_ACCESS_KEY'),
             region_name='us-east-1',
             schema_name='analytics',
-            s3_staging_dir=quote_plus('s3://artnew-analytics/athena-query-results')), echo=True)
+            s3_staging_dir=quote_plus('s3://bucket-name/athena-query-results')), echo=True)
 
     @contextmanager
     def db_session(self):
