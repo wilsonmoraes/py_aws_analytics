@@ -1,0 +1,35 @@
+# serverless config credentials --provider aws --key AKIAIDFYUY4TGYFDXIVA --secret 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
+# sls plugin install -n serverless-wsgi
+# sls plugin install -n serverless-python-requirements
+# sls deploy -v
+# Welcome to Serverless!
+#
+
+service: cerbero-aws-analytics # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: python3.7
+  stage: dev
+  region: us-east-1
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
+custom:
+  wsgi:
+    app: run.app
+  pythonRequirements:
+    dockerizePip: false
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+
+functions:
+  app:
+    handler: wsgi_handler.handler
+    #events:
+    #- http: ANY /
+    #- http: ANY {proxy+}

@@ -1,0 +1,37 @@
+cria a tabela:>
+
+CREATE EXTERNAL TABLE `cerbero_log_ready`(
+  `evento_instancia_id` string, 
+  `evento_chave` string, 
+  `evento_status` string, 
+  `evento_audit_at` string, 
+  `browser_info` string, 
+  `conta` struct<id:int,identificador:string>, 
+  `modulo` struct<id:int,chave:string>, 
+  `usuario` struct<origem_id:int,origem_email:string,alvo_id:int,alvo_email:string>, 
+  `attributes` struct<observacao:string,bean_name:string,tipo_migracao:string,pedido:struct<id:int,temp_id:int,str_content:string>>)
+PARTITIONED BY ( 
+  `year` string, 
+  `month` string, 
+  `day` string)  
+ROW FORMAT SERDE 
+  'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe' 
+STORED AS INPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat' 
+OUTPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  's3://artnew-analytics/cerbero/log/data'
+TBLPROPERTIES (
+  'classification'='parquet', 
+  'compressionType'='none',  
+  'typeOfData'='file')
+  
+
+repara a tabela:>
+ 
+msck repair table cerbero_log_ready
+SELECT * FROM "analytics"."cerbero_log_ready" limit 100;
+
+adiciona as partitions :>
+alter table cerbero_log_ready add if not exists partition (year='2019',month='04',day='10') location 's3://artnew-analytics/cerbero/log/data/2019/04/10'
